@@ -35,17 +35,7 @@ import java.util.List;
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(req ->req
                             .requestMatchers("/crackit/v1/auth/**").permitAll() // Public access to authentication endpoints
-                            .requestMatchers("/crackit/v1/management/**").hasAnyRole("ADMIN", "MEMBER") // Role-based access
                             .anyRequest().authenticated() // All other requests need to be authenticated
-                    )
-                    .cors(cors -> cors
-                            .configurationSource(request -> {
-                                CorsConfiguration configuration = new CorsConfiguration();
-                                configuration.setAllowedOrigins(List.of("http://localhost:3008")); // Allow this specific origin
-                                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow necessary methods
-                                configuration.setAllowedHeaders(List.of("*")); // Allow all headers
-                                return configuration;
-                            })
                     )
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
                     .authenticationProvider(authenticationProvider) // Custom authentication provider

@@ -30,7 +30,13 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-       return ResponseEntity.ok(authService.authenticate(request));
+        try {
+            return ResponseEntity.ok(authService.authenticate(request));
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    //ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
+        }
+
     }
 
 
